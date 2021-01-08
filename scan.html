@@ -1,0 +1,647 @@
+	<div class="content" id="dataScan" >
+   	<form id="dataForm">
+   	                <span style="color: #8a695f">SK NUMBER</span>
+   				 <div id="dataSK" class="input-style has-icon input-style-1 input-required">
+                    <i class="input-icon fa fa-list"></i>
+    
+<!--                     <input type="name" name="sk" placeholder="Masukan SK Number" required="required" autocomplete="off"> -->
+                </div>
+                <span style="color: #8a695f	">WAREHOUSE</span>
+       			<div class="input-style input-style-1 input-required">
+                    <span>WAREHOUSE</span>
+                    <em><i class="fa fa-angle-down"></i></em>
+                    <select name="wr" required="required">
+                        <option value='001'>TOKO</option>
+						<option value='002'>RECEIVING / GUDANG</option>
+						<option value='003'>GUDANG RETUR ATK BIAYA</option>
+						<option value='004'>GUDANG AFKIR/BS</option>
+						<option value='005'>WAREHOUSE PRODUKSI</option>
+						<option value='006'>GUDANG SAMPLE</option>
+						<option value='007'>GUDANG HADIAH</option>
+						<option value='008'>GUDANG RETUR FRESH FOOD</option>
+						<option value='009'>GUDANG RETUR FRESH MEAT</option>
+						<option value='010'>GUDANG RETUR DAIRY</option>
+						<option value='011'>GUDANG RETUR FOOD</option>
+						<option value='012'>GUDANG RETUR NON FOOD</option>
+						<option value='013'>GUDANG RETUR HOME LIVING</option>
+						<option value='014'>GUDANG ATK - BIAYA</option>
+						<option value='015'>GUDANG FRESH</option>
+						<option value='016'>GUDANG FOOD GALERY</option>
+						<option value='999'>WAREHOUSE TRANSIT</option>
+
+                    </select>
+                </div>
+                <div class="input-style has-icon input-style-1 input-required">
+                    <i class="input-icon fa fa-user"></i>
+                    <span>USER INPUT</span>
+                    <input type="name" name="upd" placeholder="Masukan user yang input" required="required" autocomplete="off">
+                </div>
+                <button type="SUBMIT" class="button button-l button-full round-small top-10" style="width: 100%;background-color:#cc3c24">
+                	SELANJUTNYA
+                </button>
+   	</form>
+
+   	  	<form id="dataForm2" style="display: none;">
+   	  		  <span style="color:red">RAK / LOCATION</span>
+   				<div class="input-style has-icon input-style-1 input-required">
+                    <i class="input-icon fa fa-list"></i>
+                  
+                    <input style="text-transform:uppercase" type="name" name="ket" placeholder="Masukan lokasi" required="required" autocomplete="off">
+                </div>
+       		
+           
+                   <button type="SUBMIT" class="button button-l color-black button-full round-small top-10" style="width: 100%;background-color: #faf1db">
+                	<center>
+                		<img src="logo.png" height="30">
+                	</center>
+
+                  </button>
+                <div style="clear: both;"></div>
+   		</form>
+
+
+   		<div id="dataFormCari" style="display: none;">
+   			<div class="search-box search-color  shadow-tiny round-large bottom-20" style="background-color: #8a695f">
+                <i class="fa fa-search"></i>
+                <input  style="text-transform:uppercase" id="cariProduct" type="text" placeholder="Search product here..">
+            </div>
+            <div id="hasilCariBarang">
+            	
+            </div>
+         </div>
+
+   	<div id="dataScanBarang">
+
+
+	   			
+   	
+   	</div>
+          
+</div>  
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+
+
+window.onload=function () {
+     var objDiv = document.getElementById("dataScanBarang");
+     objDiv.scrollTop = objDiv.scrollHeight;
+}
+
+
+
+$.ajax({
+	url:'https://setiabudhi-supermarket.co.id/api/skNumber.php',
+	beforeSend: function(){
+					       $("#loading").css({
+					       		'display':'block',
+					       		'z-index':999
+					       })
+					   },
+					   complete: function(){
+					         $("#loading").css({
+					       		'display':'node',
+					       		'z-index':0
+					       })
+					   },
+	success:function(data){
+		$("#dataSK").html(data);
+			$('option[value="'+dataLocal.getItem('sk')+'"]').attr("selected","selected");
+	}
+})
+
+
+	var tinggiPerangkat = screen.height;
+
+
+	$("#dataScanBarang").css({
+
+		'overflow-y':'scroll',
+		'height':(tinggiPerangkat-370) +'px'
+
+
+	})
+
+	$("#hasilCariBarang").css({
+
+		'overflow-y':'scroll',
+		'height':(tinggiPerangkat-370) +'px'
+
+
+	})
+
+
+
+	$("#dataFormCari").css({
+
+		'height':(tinggiPerangkat) +'px'
+
+
+	})
+
+
+	var dataLocal = window.localStorage;
+
+
+	$("select[name=wr]").val(dataLocal.getItem('wr'));
+	$("input[name=upd]").val(dataLocal.getItem('upd'));
+	$("input[name=ket]").val(dataLocal.getItem('ket'));
+
+
+
+	function hapusList(){
+
+		$(".hapusList").click(function(e){
+			e.preventDefault();
+
+			var sk = $(this).attr("data-sk");
+			var wr = $(this).attr("data-wr");
+			var ket = $(this).attr("data-ket");
+			var sku = $(this).attr("data-sku");
+			var nama =$(this).attr("data-nama");
+			var qty = $(this).attr("data-qty");
+			var tm = $(this).attr("data-tm");
+
+			var answer = window.confirm(dataLocal.getItem('upd') + " kamu yakin akan hapus "+ sku + " - " + nama + " ini ?")
+			if (answer) {
+			    //some code
+			    $.ajax({
+				url:'https://setiabudhi-supermarket.co.id/api/hapusso.php',
+				type:'POST',
+				data:{
+					sk:sk,
+					qty:qty,
+					tm:tm,
+					wr:wr,
+					ket,ket,
+					sku,sku
+
+				},beforeSend: function(){
+					       $("#loading").css({
+					       		'display':'block',
+					       		'z-index':999
+					       })
+					   },
+					   complete: function(){
+					         $("#loading").css({
+					       		'display':'node',
+					       		'z-index':0
+					       })
+					   },success:function(data){
+
+					$.ajax({
+					url:'https://setiabudhi-supermarket.co.id/api/listso.php?ket='+dataLocal.getItem('ket')+'&sk='+dataLocal.getItem('sk')+'&wr='+dataLocal.getItem('wr'),
+					success:function(html){
+						$("#dataScanBarang").html(html);
+						  hapusList()
+						  editList()
+							}
+						})
+
+					}
+				})
+			}
+			else {
+			    //some code
+			}	
+
+	
+
+			
+		})
+
+	}
+
+
+	function editList(){
+
+		$(".editList").click(function(e){
+			e.preventDefault();
+			var sk = $(this).attr("data-sk");
+			var wr = $(this).attr("data-wr");
+			var ket = $(this).attr("data-ket");
+			var sku = $(this).attr("data-sku");
+			var qty = $(this).attr("data-qty");
+			var tm = $(this).attr("data-tm");
+
+
+			CariBarcodeEdit(sku,qty,sk,wr,tm,ket)
+		
+
+		})
+
+
+	}
+
+
+
+	function cariNama(){
+
+		$(".btnPencarian").click(function(e){
+			e.preventDefault();
+			
+			$("#dataForm2").slideUp("fast");
+			$("#dataFormCari").slideDown("slow",function(){
+				$("#cariProduct").focus();
+
+				
+
+				$("#cariProduct").keyup(function(e){
+					e.preventDefault();
+
+						var cari = $("#cariProduct").val();
+
+						$.ajax({
+							url:'https://setiabudhi-supermarket.co.id/api/cari.php',
+							type:'GET',
+							data:{key:cari},beforeSend: function(){
+					       $("#loading").css({
+					       		'display':'block',
+					       		'z-index':999
+					       })
+					   },
+					   complete: function(){
+					         $("#loading").css({
+					       		'display':'node',
+					       		'z-index':0
+					       })
+					   },
+							success:function(data){
+
+
+								$("#hasilCariBarang").html(data);
+
+								$(".getBarang").click(function(e){
+									$("#dataFormCari").slideUp("fast");
+									$("#cariProduct").val("");
+									e.preventDefault();
+									var keyBarang = $(this).attr("data-sku");
+									CariBarcode(keyBarang);
+								})
+							}
+						});
+
+
+				})
+
+
+
+
+			});		
+
+		});
+
+	}
+
+
+
+function CariBarcode(dataBarcode,qtyAsal=0){
+	 						$.ajax({
+											url:'https://setiabudhi-supermarket.co.id/api/barcode.php',
+											type:'GET',
+											data:{key:dataBarcode},
+											success:function(data){
+
+													if (data==404) {
+
+													}else{
+
+														// console.log(data);	
+													qtyAsal= qtyAsal;
+													$("#dataScanBarang").html(data);
+
+													if(qtyAsal==0){
+														$("input[name=qty]").focus();
+													}else{
+														$("input[name=qty]").val(qtyAsal,focus());
+													}
+
+													$("#dataForm2").slideUp("slow");
+
+												
+
+
+													$("#dataForm3").submit(function(e){
+														e.preventDefault();
+
+														var sku = $("input[name=sku]").val();
+														var qty = $("input[name=qty]").val();
+														var uom = $("input[name=uom]").val();
+
+
+														$.ajax({
+															url:'https://setiabudhi-supermarket.co.id/api/addso.php',
+															type:'GET',
+															data :{
+																sku:sku,
+																qty:qty,
+																uom:uom,
+																sk:dataLocal.getItem('sk'),
+																wr:dataLocal.getItem('wr'),
+																ket:dataLocal.getItem('ket'),
+																upd:dataLocal.getItem('upd'),
+															},beforeSend: function(){
+												       $("#loading").css({
+												       		'display':'block',
+												       		'z-index':999
+												       })
+												   },
+												   complete: function(){
+												         $("#loading").css({
+												       		'display':'node',
+												       		'z-index':0
+												       })
+												   },
+															success:function(data){
+															//	console.log(data);
+																$.ajax({
+																	url:'https://setiabudhi-supermarket.co.id/api/listso.php?ket='+dataLocal.getItem('ket')+'&sk='+dataLocal.getItem('sk')+'&wr='+dataLocal.getItem('wr'),
+																	success:function(html){
+																		$("#dataScanBarang").html(html);
+																		 var objDiv = document.getElementById("dataScanBarang");
+    																	 objDiv.scrollTop = objDiv.scrollHeight;
+																		 hapusList();
+						 												 editList();
+
+						 												 setTimeout(function(){ prosesScan() }, 1000);
+
+																	}
+																});
+
+
+
+																
+															}
+														})
+
+														
+														$(this).slideUp("fast");
+														$("#dataForm2").slideDown("slow");
+
+
+
+													})
+													}
+													
+
+
+											} 
+
+										});
+}
+
+
+
+function CariBarcodeEdit(dataBarcode,qtyAsal,sk,wr,tm,ket){
+
+
+	var tm=tm;
+	 						$.ajax({
+											url:'https://setiabudhi-supermarket.co.id/api/barcode.php',
+											type:'GET',
+											data:{key:dataBarcode},beforeSend: function(){
+					       $("#loading").css({
+					       		'display':'block',
+					       		'z-index':999
+					       })
+					   },
+					   complete: function(){
+					         $("#loading").css({
+					       		'display':'node',
+					       		'z-index':0
+					       })
+					   },
+											success:function(data){
+
+													if (data==404) {
+
+													}else{
+
+														// console.log(data);	
+													qtyAsal= qtyAsal;
+													$("#dataScanBarang").html(data);
+
+												
+														$("input[name=qty]").val(qtyAsal);
+													
+
+													$("#dataForm2").slideUp("slow");
+
+												
+
+
+													$("#dataForm3").submit(function(e){
+														e.preventDefault();
+
+														var sku = $("input[name=sku]").val();
+														var qty = $("input[name=qty]").val();
+														var uom = $("input[name=uom]").val();
+
+
+														$.ajax({
+															url:'https://setiabudhi-supermarket.co.id/api/editso.php',
+															type:'GET',
+															data :{
+																sku:sku,
+																qty:qty,
+																uom:uom,
+																qtyAsal:qtyAsal,
+																tm:tm,
+																sk:dataLocal.getItem('sk'),
+																wr:dataLocal.getItem('wr'),
+																ket:dataLocal.getItem('ket'),
+																upd:dataLocal.getItem('upd'),
+															},beforeSend: function(){
+					       $("#loading").css({
+					       		'display':'block',
+					       		'z-index':999
+					       })
+					   },
+					   complete: function(){
+					         $("#loading").css({
+					       		'display':'node',
+					       		'z-index':0
+					       })
+					   },
+															success:function(data){
+																console.log(data);
+																$.ajax({
+																	url:'https://setiabudhi-supermarket.co.id/api/listso.php?ket='+dataLocal.getItem('ket')+'&sk='+dataLocal.getItem('sk')+'&wr='+dataLocal.getItem('wr'),
+																	success:function(html){
+																		$("#dataScanBarang").html(html);
+																		 var objDiv = document.getElementById("dataScanBarang");
+    																	 objDiv.scrollTop = objDiv.scrollHeight;
+																		 hapusList();
+						 												 editList();
+
+						 												 setTimeout(function(){ prosesScan() }, 1000);
+
+																	}
+																});
+
+
+
+																
+															}
+														})
+
+														
+														$(this).slideUp("fast");
+														$("#dataForm2").slideDown("slow");
+
+
+
+													})
+													}
+													
+
+
+											} 
+
+										});
+}
+
+
+
+
+function prosesScan(){
+	cordova.plugins.barcodeScanner.scan(
+						      function (result) {
+						
+						                var dataBarcode = result.text;
+
+						                // console.log(dataBarcode);	
+
+						                CariBarcode(dataBarcode);
+
+						      },
+						      function (error) {
+						          // alert("Scanning failed: " + error);
+						      },
+						      {
+						          preferFrontCamera : false, // iOS and Android
+						          showFlipCameraButton : true, // iOS and Android
+						          showTorchButton : true, // iOS and Android
+						          torchOn: false, // Android, launch with the torch switched on (if available)
+						          saveHistory: true, // Android, save scan history (default false)
+						          prompt : "Place a barcode inside the scan area", // Android
+						          resultDisplayDuration: 500, // Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
+						          formats : "all", // default: all but PDF_417 and RSS_EXPANDED
+						          orientation : "portrait", // Android only (portrait|landscape), default unset so it rotates with the device
+						          disableAnimations : true, // iOS
+						          disableSuccessBeep: false // iOS and Android
+						      }
+						   );
+}
+
+	$("#dataForm").submit(function(e){
+
+
+	var answer = window.confirm(dataLocal.getItem('upd') + " KAMU HARUS FOKUS YA, JIKA SIAP TEKAN YES !")
+			if (answer) {
+
+					$(".header").append('<a href="#" class="header-icon header-icon-1 btnPencarian"><i class="fas fa-search"></i></a>');
+
+				
+					e.preventDefault();
+
+					var sk = $("select[name=sk]").val();
+					var wr = $("select[name=wr]").val();
+					var upd = $("input[name=upd]").val();
+
+
+					dataLocal.setItem("sk", sk);
+					dataLocal.setItem("wr", wr);
+					dataLocal.setItem("upd", upd);
+
+						cariNama();
+							
+
+					$(this).slideUp("fast");
+					$("#dataForm2").slideDown("slow",function(){
+
+							$.ajax({
+								url:'https://setiabudhi-supermarket.co.id/api/listso.php?ket='+dataLocal.getItem('ket')+'&sk='+dataLocal.getItem('sk')+'&wr='+dataLocal.getItem('wr'),beforeSend: function(){
+					       $("#loading").css({
+					       		'display':'block',
+					       		'z-index':999
+					       })
+					   },
+					   complete: function(){
+					         $("#loading").css({
+					       		'display':'node',
+					       		'z-index':0
+					       })
+					   },
+								success:function(html){
+									$("#dataScanBarang").html(html);
+									 hapusList();
+									 editList();
+									  var objDiv = document.getElementById("dataScanBarang");
+			    					  objDiv.scrollTop = objDiv.scrollHeight;
+								}
+							})
+
+
+							$("input[name=ket]").keyup(function(e){
+								e.preventDefault();
+
+								dataLocal.setItem("ket", $(this).val());
+								$.ajax({
+								url:'https://setiabudhi-supermarket.co.id/api/listso.php?ket='+dataLocal.getItem('ket')+'&sk='+dataLocal.getItem('sk')+'&wr='+dataLocal.getItem('wr'),beforeSend: function(){
+					       $("#loading").css({
+					       		'display':'block',
+					       		'z-index':999
+					       })
+					   },
+					   complete: function(){
+					         $("#loading").css({
+					       		'display':'node',
+					       		'z-index':0
+					       })
+					   },
+									success:function(html){
+										$("#dataScanBarang").html(html);
+										hapusList();
+										editList();
+
+
+									}
+								})
+
+							})
+
+							$(this).submit(function(e){
+									e.preventDefault();
+									var ket = $("input[name=ket]").val();
+									dataLocal.setItem("ket", ket);
+
+
+									 prosesScan();
+
+
+
+
+							})
+
+					});
+
+			}else{
+
+			}
+		
+
+		//var value = storage.getItem(key); // Pass a key name to get its value.
+		//storage.setItem(key, value) // Pass a key name and its value to add or update that key.
+		//storage.removeItem(key) // Pass a key name to remove that key from storage.
+
+		
+	})
+</script>

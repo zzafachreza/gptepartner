@@ -1,0 +1,57 @@
+<div class="content" style="background-color: #faf1db">
+
+ <div class="content bottom-5">
+               
+                <div id="dataScanBarang" class="link-list link-list-1 dataSK">
+
+
+
+                    
+
+                </div>
+            </div>
+</div>
+
+<script type="text/javascript">
+
+var dataLocal = window.localStorage;
+  var token = "4289072";	
+
+
+  function lihatLokasi(sk,wr){
+        sk = sk;
+        wr=wr;
+
+      $.ajax({
+                url:"https://setiabudhi-supermarket.co.id/api/lokasi.php?sk="+sk+"&wr="+wr+"&token="+token,
+                type:'GET',
+                beforeSend: function(){
+                       $("#loading").css({
+                          'display':'block',
+                          'z-index':999
+                       })
+                   },
+                   complete: function(){
+                         $("#loading").css({
+                          'display':'none',
+                          'z-index':0
+                       })
+                   },
+            success:function(data){
+                        $(".dataSK").load("https://setiabudhi-supermarket.co.id/api/lokasiCEK.php?sk="+sk+"&wr="+wr+"&token="+token,function(){
+
+              });
+            }
+      })
+
+    }
+
+
+
+
+$(".dataSK").load("https://setiabudhi-supermarket.co.id/api/sk.php?token="+token,function(){
+
+	});
+
+
+</script>
