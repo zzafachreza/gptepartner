@@ -145,7 +145,7 @@ export default function Home({navigation}) {
 
         <View
           style={{
-            height: 70,
+            height: 80,
             width: '95%',
             alignSelf: 'center',
             backgroundColor: 'white',

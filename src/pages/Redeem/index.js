@@ -52,7 +52,7 @@ export default function Redeem({navigation, route}) {
         backgroundColor: 'white',
         elevation: 1,
 
-        height: 80,
+        // height: 80,
         flexDirection: 'row',
       }}>
       <View

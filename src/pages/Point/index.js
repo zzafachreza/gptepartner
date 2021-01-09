@@ -53,12 +53,13 @@ export default function Point({navigation, route}) {
         backgroundColor: 'white',
         elevation: 1,
 
-        height: 80,
+        // height: 80,
         flexDirection: 'row',
       }}>
       <View
         style={{
           flex: 2,
+          padding: 2,
           justifyContent: 'center',
         }}>
         <Text
