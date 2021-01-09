@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "613420266686",
+    "project_id": "anyarcctv-dd333",
+    "storage_bucket": "anyarcctv-dd333.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613420266686:android:369bee35c33bf5f6659aef",
+        "android_client_info": {
+          "package_name": "com.gptepartner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "613420266686-rq59dk8op2v9fsj84slu4qogee71f0l1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-ZY1gasUJ4w1pIJLSyKxeoHcYFDBDjfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "613420266686-rq59dk8op2v9fsj84slu4qogee71f0l1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
