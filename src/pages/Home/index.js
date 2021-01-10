@@ -80,7 +80,7 @@ export default function Home({navigation}) {
         style={{
           height: 200,
           padding: 50,
-          marginBottom: 10,
+          // marginBottom: 100,
           // marginLeft: 20,
           // marginRight: 20,
         }}>
@@ -146,18 +146,17 @@ export default function Home({navigation}) {
         <View
           style={{
             height: 80,
-            width: '95%',
             alignSelf: 'center',
             backgroundColor: 'white',
             borderRadius: 10,
             elevation: 2,
-            padding: 10,
+            padding: 5,
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
           <View
             style={{
-              flex: 3,
+              flex: 2,
             }}>
             <Text
               style={{
@@ -182,11 +181,12 @@ export default function Home({navigation}) {
               navigation.navigate('GetRedeem', {point: point, id: user.id})
             }
             style={{
-              flex: 4,
+              flex: 3,
               backgroundColor: 'white',
               // elevation: 1,
-              borderRadius: 50,
-              justifyContent: 'center',
+              // zIndex: 100,
+              // borderRadius: 50,
+              justifyContent: 'flex-end',
               alignItems: 'center',
             }}>
             <Icon
@@ -211,7 +211,7 @@ export default function Home({navigation}) {
           backgroundColor: 'red',
           paddingTop: 5,
           elevation: 1,
-          bottom: 5,
+          // bottom: 5,
           borderTopLeftRadius: 35,
         }}>
         <View

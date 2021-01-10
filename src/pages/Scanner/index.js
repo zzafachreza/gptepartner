@@ -24,19 +24,65 @@ export default function Scanner({navigation}) {
       top, // The animated value to drive
       {
         toValue: windowHeight / 2 - 5, // Animate to opacity: 1 (opaque)
-        duration: 3500, // Make it take a while
+        duration: 2000, // Make it take a while
         useNativeDriver: false,
       },
     ).start();
 
-    Animated.timing(
-      bottom, // The animated value to drive
-      {
-        toValue: 0, // Animate to opacity: 1 (opaque)
-        duration: 1200, // Make it take a while
-        useNativeDriver: false,
-      },
-    ).start();
+    setTimeout(() => {
+      Animated.timing(
+        top, // The animated value to drive
+        {
+          toValue: 0, // Animate to opacity: 1 (opaque)
+          duration: 2000, // Make it take a while
+          useNativeDriver: false,
+        },
+      ).start();
+    }, 2000);
+
+    setTimeout(() => {
+      Animated.timing(
+        top, // The animated value to drive
+        {
+          toValue: windowHeight / 2 - 5, // Animate to opacity: 1 (opaque)
+          duration: 2000, // Make it take a while
+          useNativeDriver: false,
+        },
+      ).start();
+    }, 4000);
+
+    setTimeout(() => {
+      Animated.timing(
+        top, // The animated value to drive
+        {
+          toValue: 0, // Animate to opacity: 1 (opaque)
+          duration: 2000, // Make it take a while
+          useNativeDriver: false,
+        },
+      ).start();
+    }, 6000);
+
+    setTimeout(() => {
+      Animated.timing(
+        top, // The animated value to drive
+        {
+          toValue: windowHeight / 2 - 5, // Animate to opacity: 1 (opaque)
+          duration: 2000, // Make it take a while
+          useNativeDriver: false,
+        },
+      ).start();
+    }, 8000);
+
+    setTimeout(() => {
+      Animated.timing(
+        top, // The animated value to drive
+        {
+          toValue: 0, // Animate to opacity: 1 (opaque)
+          duration: 2000, // Make it take a while
+          useNativeDriver: false,
+        },
+      ).start();
+    }, 10000);
   }, []);
 
   const barcodeReceived = (result) => {
