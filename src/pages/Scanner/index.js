@@ -9,8 +9,11 @@ import {
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {Icon, ListItem} from 'react-native-elements';
+import {useIsFocused} from '@react-navigation/native';
 
 export default function Scanner({navigation}) {
+  const isFocused = useIsFocused();
+
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
 
@@ -19,71 +22,26 @@ export default function Scanner({navigation}) {
   const top = new Animated.Value(0);
   const bottom = new Animated.Value(1);
 
-  useEffect(() => {
-    Animated.timing(
-      top, // The animated value to drive
+  const animasi = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(top, {
+          toValue: windowHeight / 2 - 5,
+          duration: 1000,
+          // delay: 2000,
+        }),
+        Animated.timing(top, {
+          toValue: 0,
+          duration: 1000,
+        }),
+      ]),
       {
-        toValue: windowHeight / 2 - 5, // Animate to opacity: 1 (opaque)
-        duration: 2000, // Make it take a while
-        useNativeDriver: false,
+        iterations: 5,
       },
     ).start();
+  };
 
-    setTimeout(() => {
-      Animated.timing(
-        top, // The animated value to drive
-        {
-          toValue: 0, // Animate to opacity: 1 (opaque)
-          duration: 2000, // Make it take a while
-          useNativeDriver: false,
-        },
-      ).start();
-    }, 2000);
-
-    setTimeout(() => {
-      Animated.timing(
-        top, // The animated value to drive
-        {
-          toValue: windowHeight / 2 - 5, // Animate to opacity: 1 (opaque)
-          duration: 2000, // Make it take a while
-          useNativeDriver: false,
-        },
-      ).start();
-    }, 4000);
-
-    setTimeout(() => {
-      Animated.timing(
-        top, // The animated value to drive
-        {
-          toValue: 0, // Animate to opacity: 1 (opaque)
-          duration: 2000, // Make it take a while
-          useNativeDriver: false,
-        },
-      ).start();
-    }, 6000);
-
-    setTimeout(() => {
-      Animated.timing(
-        top, // The animated value to drive
-        {
-          toValue: windowHeight / 2 - 5, // Animate to opacity: 1 (opaque)
-          duration: 2000, // Make it take a while
-          useNativeDriver: false,
-        },
-      ).start();
-    }, 8000);
-
-    setTimeout(() => {
-      Animated.timing(
-        top, // The animated value to drive
-        {
-          toValue: 0, // Animate to opacity: 1 (opaque)
-          duration: 2000, // Make it take a while
-          useNativeDriver: false,
-        },
-      ).start();
-    }, 10000);
-  }, []);
+  isFocused ? animasi() : null;
 
   const barcodeReceived = (result) => {
     // alert(result);
@@ -92,7 +50,7 @@ export default function Scanner({navigation}) {
 
   return (
     <View style={styles().container}>
-      <RNCamera
+      {/* <RNCamera
         style={styles().preview}
         type={RNCamera.Constants.Type.back}
         autoFocus={RNCamera.Constants.AutoFocus.on}
@@ -109,20 +67,20 @@ export default function Scanner({navigation}) {
           buttonPositive: 'Ok',
           buttonNegative: 'Cancel',
         }}
-        onBarCodeRead={barcodeReceived}>
-        <View style={styles(windowHeight).box}>
-          <Animated.View
-            style={{
-              borderWidth: 2,
-              borderColor: 'red',
-              width: '100%',
-              position: 'absolute',
-              marginTop: top,
-              // top: 1,
-            }}
-          />
-        </View>
-        {/* {!lampu ? (
+        onBarCodeRead={barcodeReceived}> */}
+      <View style={styles(windowHeight).box}>
+        <Animated.View
+          style={{
+            borderWidth: 2,
+            borderColor: 'red',
+            width: '100%',
+            position: 'absolute',
+            marginTop: top,
+            // top: 1,
+          }}
+        />
+      </View>
+      {/* {!lampu ? (
           <TouchableOpacity
             onPress={() => setlampu(true)}
             style={{
@@ -143,7 +101,7 @@ export default function Scanner({navigation}) {
             <Icon name="times" type="font-awesome" color="white" size={35} />
           </TouchableOpacity>
         )} */}
-      </RNCamera>
+      {/* </RNCamera> */}
     </View>
   );
 }

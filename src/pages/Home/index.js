@@ -116,9 +116,9 @@ export default function Home({navigation}) {
       <View
         style={{
           backgroundColor: 'red',
-          height: 100,
+          height: windowHeight / 10,
           padding: 20,
-          marginBottom: 50,
+          // marginBottom: 0,
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 50,
           elevation: 2,
@@ -142,87 +142,81 @@ export default function Home({navigation}) {
           }}>
           {user.nama_lengkap}
         </Text>
-
+      </View>
+      <View
+        style={{
+          height: windowHeight / 10,
+          // paddingLeft: 30,
+          // margin: 1,
+          // elevation: 1,
+          // justifyContent: 'center',
+          // alignItems: 'center',
+          // backgroundColor: 'yellow',
+          flexDirection: 'row',
+        }}>
         <View
           style={{
-            height: 80,
-            alignSelf: 'center',
-            backgroundColor: 'white',
-            borderRadius: 10,
-            elevation: 2,
-            padding: 5,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            flex: 1,
+            // backgroundColor: 'yellow',
+            justifyContent: 'center',
+            // alignItems: 'center',
+            paddingLeft: 20,
           }}>
-          <View
+          <Text
             style={{
-              flex: 2,
+              color: 'black',
+              fontSize: 16,
+              fontFamily: 'Montserrat-Regular',
             }}>
-            <Text
-              style={{
-                color: 'black',
-                fontSize: 18,
-                fontFamily: 'Montserrat-Regular',
-              }}>
-              Point Anda
-            </Text>
-            <Text
-              style={{
-                color: 'black',
-                fontSize: 30,
-                left: 10,
-                fontWeight: 'bold',
-              }}>
-              {point}
-            </Text>
-          </View>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('GetRedeem', {point: point, id: user.id})
-            }
+            Point Anda
+          </Text>
+          <Text
             style={{
-              flex: 3,
-              backgroundColor: 'white',
-              // elevation: 1,
-              // zIndex: 100,
-              // borderRadius: 50,
-              justifyContent: 'flex-end',
-              alignItems: 'center',
+              color: 'black',
+              fontSize: 30,
+              fontWeight: 'bold',
             }}>
-            <Icon
-              name="cloud-upload"
-              type="font-awesome"
-              color="red"
-              size={35}
-            />
-            <Text
-              style={{
-                fontFamily: 'Nunito-Light',
-                color: 'red',
-              }}>
-              Redeem
-            </Text>
-          </TouchableOpacity>
+            {point}
+          </Text>
         </View>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('GetRedeem', {point: point, id: user.id})
+          }
+          style={{
+            flex: 1,
+            backgroundColor: 'white',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Icon name="cloud-upload" type="font-awesome" color="red" size={35} />
+          <Text
+            style={{
+              fontFamily: 'Nunito-Light',
+              color: 'red',
+              fontSize: 16,
+            }}>
+            Redeem
+          </Text>
+        </TouchableOpacity>
       </View>
-
       <View
         style={{
           backgroundColor: 'red',
-          paddingTop: 5,
+
           elevation: 1,
           // bottom: 5,
-          borderTopLeftRadius: 35,
+          borderTopLeftRadius: 50,
         }}>
         <View
           style={{
             padding: 5,
-            alignItems: 'center',
+            // alignItems: 'center',
           }}>
           <Text
             style={{
               fontSize: 18,
-              right: 10,
+              left: 20,
               fontFamily: 'Nunito-Bold',
               color: 'white',
             }}>

@@ -6,7 +6,7 @@ import {
   TextInput,
   ActivityIndicator,
 } from 'react-native';
-import {Button} from 'react-native-elements';
+import {Button, Icon} from 'react-native-elements';
 import {showMessage} from 'react-native-flash-message';
 
 import axios from 'axios';
@@ -63,17 +63,18 @@ export default function GetRedeem({navigation, route}) {
           // height: 200,
           elevation: 1,
           flexDirection: 'row',
-          padding: 20,
+          padding: 10,
           margin: 10,
         }}>
         <View
           style={{
-            flex: 2,
+            flex: 1,
+            // backgroundColor: 'yellow',
             justifyContent: 'center',
           }}>
           <Text
             style={{
-              fontSize: 22,
+              fontSize: 16,
               color: 'gray',
               fontFamily: 'Montserrat-Medium',
             }}>
@@ -90,6 +91,7 @@ export default function GetRedeem({navigation, route}) {
         <View
           style={{
             flex: 2,
+            // backgroundColor: 'blue',
             justifyContent: 'center',
             alignItems: 'center',
           }}>
@@ -97,13 +99,22 @@ export default function GetRedeem({navigation, route}) {
             onPress={() => navigation.navigate('Hadiah')}
             style={{
               backgroundColor: 'red',
-              padding: 15,
+              // padding: 15,
+
+              width: '90%',
+              height: 45,
+              justifyContent: 'center',
+              alignItems: 'center',
               borderRadius: 10,
+              flexDirection: 'row',
             }}>
+            <Icon name="gift" type="font-awesome" color="white" size={30} />
+
             <Text
               style={{
-                fontSize: 15,
+                fontSize: 16,
                 color: 'white',
+                left: 10,
                 fontFamily: 'Montserrat-SemiBold',
               }}>
               Lihat Hadiah
@@ -156,10 +167,14 @@ export default function GetRedeem({navigation, route}) {
           height: 45,
           marginHorizontal: 10,
           borderRadius: 5,
+          flexDirection: 'row',
         }}>
+        <Icon name="download" type="font-awesome" color="white" size={30} />
+
         <Text
           style={{
             // fontSize: 50,
+            left: 10,
             color: 'white',
             fontFamily: 'Montserrat-Medium',
           }}>
