@@ -60,7 +60,8 @@ export default function GetStarted({navigation}) {
     <ImageBackground source={{uri: bgLogo}} style={styles.bg}>
       <View
         style={{
-          padding: 20,
+          paddingHorizontal: 20,
+          marginVertical: 20,
           marginTop: '35%',
           justifyContent: 'center',
           // alignItems: 'center',

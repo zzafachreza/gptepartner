@@ -50,7 +50,7 @@ export default function Scanner({navigation}) {
 
   return (
     <View style={styles().container}>
-      {/* <RNCamera
+      <RNCamera
         style={styles().preview}
         type={RNCamera.Constants.Type.back}
         autoFocus={RNCamera.Constants.AutoFocus.on}
@@ -67,20 +67,20 @@ export default function Scanner({navigation}) {
           buttonPositive: 'Ok',
           buttonNegative: 'Cancel',
         }}
-        onBarCodeRead={barcodeReceived}> */}
-      <View style={styles(windowHeight).box}>
-        <Animated.View
-          style={{
-            borderWidth: 2,
-            borderColor: 'red',
-            width: '100%',
-            position: 'absolute',
-            marginTop: top,
-            // top: 1,
-          }}
-        />
-      </View>
-      {/* {!lampu ? (
+        onBarCodeRead={barcodeReceived}>
+        <View style={styles(windowHeight).box}>
+          <Animated.View
+            style={{
+              borderWidth: 2,
+              borderColor: 'red',
+              width: '100%',
+              position: 'absolute',
+              marginTop: top,
+              // top: 1,
+            }}
+          />
+        </View>
+        {/* {!lampu ? (
           <TouchableOpacity
             onPress={() => setlampu(true)}
             style={{
@@ -101,7 +101,7 @@ export default function Scanner({navigation}) {
             <Icon name="times" type="font-awesome" color="white" size={35} />
           </TouchableOpacity>
         )} */}
-      {/* </RNCamera> */}
+      </RNCamera>
     </View>
   );
 }

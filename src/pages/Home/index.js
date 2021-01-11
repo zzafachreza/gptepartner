@@ -245,7 +245,7 @@ export default function Home({navigation}) {
       <View
         style={{
           backgroundColor: 'red',
-          height: windowHeight / 3,
+          height: windowHeight / 3.5,
           // margin: 10,
           paddingHorizontal: 20,
           paddingBottom: '10%',

@@ -82,7 +82,7 @@ export default function Login({navigation}) {
           marginBottom: '10%',
           fontFamily: 'Montserrat-Medium',
         }}>
-        Silahkan Login Anda Terlebih Dahulu
+        Silahkan Anda Login Terlebih Dahulu
       </Text>
 
       <Input
