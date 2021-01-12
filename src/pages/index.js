@@ -14,6 +14,7 @@ import Info from './Info';
 import Hadiah from './Hadiah';
 import Otp from './Otp';
 import Lupa from './Lupa';
+import List from './list';
 
 export {
   Splash,
@@ -32,4 +33,5 @@ export {
   Otp,
   Hadiah,
   Lupa,
+  List,
 };

@@ -7,30 +7,35 @@ import {storeData, getData} from '../../utils/localStorage';
 
 export default function Hasil({navigation, route}) {
   const data = route.params;
+  const [loading, setLoading] = useState(false);
+  const [iduser, setIdUser] = useState(0);
+  const [no_seri, setno_seri] = useState(data.barcode);
+  const [keterangan, setketerangan] = useState('CCTV OKE YA');
+  const [point, setpoint] = useState(0);
   const [user, setUser] = useState({});
   const [barang, setBarang] = useState('');
+  const [tanggal_jual, setTanggal_jual] = useState('');
 
   useEffect(() => {
     getData('user').then((res) => {
       setIdUser(res.id);
     });
 
+    setLoading(true);
+
     axios
       .post('https://hikvisionindonesia.co.id/api/get.php', {
         key: data.barcode,
+        kode: data.kode,
       })
       .then((res) => {
-        console.log(res.data.nama);
+        setLoading(false);
+        // console.log(res.data.nama);
         setBarang(res.data.nama);
         setpoint(res.data.point);
+        setTanggal_jual(res.data.tanggal_jual);
       });
   }, []);
-
-  const [loading, setLoading] = useState(false);
-  const [iduser, setIdUser] = useState(0);
-  const [no_seri, setno_seri] = useState(data.barcode);
-  const [keterangan, setketerangan] = useState('CCTV OKE YA');
-  const [point, setpoint] = useState(0);
 
   const simpan = () => {
     // navigation.replace('Point');
@@ -40,7 +45,7 @@ export default function Hasil({navigation, route}) {
     const insertdata = {
       id: iduser,
       no_seri: no_seri,
-      keterangan: keterangan,
+      keterangan: barang,
       point: point,
     };
 
@@ -128,6 +133,31 @@ export default function Hasil({navigation, route}) {
 
       <View
         style={{
+          backgroundColor: 'white',
+          // height: 200,
+          elevation: 1,
+          padding: 20,
+          margin: 10,
+        }}>
+        <Text
+          style={{
+            fontSize: 22,
+            color: 'gray',
+            fontFamily: 'Montserrat-Medium',
+          }}>
+          Tanggal Transaksi
+        </Text>
+        <Text
+          style={{
+            fontSize: 30,
+            fontFamily: 'Montserrat-SemiBold',
+          }}>
+          {tanggal_jual}
+        </Text>
+      </View>
+
+      <View
+        style={{
           // backgroundColor: 'white',
           // height: 200,
 
@@ -154,25 +184,49 @@ export default function Hasil({navigation, route}) {
           {point}
         </Text>
       </View>
-      <TouchableOpacity
-        onPress={simpan}
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: 'red',
-          height: 45,
-          marginHorizontal: 10,
-          borderRadius: 5,
-        }}>
-        <Text
+
+      {point > 0 ? (
+        <TouchableOpacity
+          onPress={simpan}
           style={{
-            // fontSize: 50,
-            color: 'white',
-            fontFamily: 'Montserrat-Medium',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'red',
+            height: 45,
+            marginHorizontal: 10,
+            borderRadius: 5,
           }}>
-          DAPATKAN POINT
-        </Text>
-      </TouchableOpacity>
+          <Text
+            style={{
+              // fontSize: 50,
+              color: 'white',
+              fontFamily: 'Montserrat-Medium',
+            }}>
+            DAPATKAN POINT
+          </Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          onPress={() => navigation.replace('MainApp')}
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'grey',
+            height: 45,
+            marginHorizontal: 10,
+            borderRadius: 5,
+          }}>
+          <Text
+            style={{
+              // fontSize: 50,
+              color: 'white',
+              fontFamily: 'Montserrat-Medium',
+            }}>
+            KEMBALI
+          </Text>
+        </TouchableOpacity>
+      )}
+
       {loading && (
         <View
           style={{

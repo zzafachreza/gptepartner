@@ -19,6 +19,7 @@ import {
   Hadiah,
   Otp,
   Lupa,
+  List,
 } from '../pages';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomNavigator} from '../components';
@@ -85,6 +86,11 @@ export default function Router() {
       <Stack.Screen name="GetRedeem" component={GetRedeem} />
       <Stack.Screen name="Info" component={Info} />
       <Stack.Screen name="Hadiah" component={Hadiah} />
+      <Stack.Screen
+        name="List"
+        component={List}
+        options={{headerShown: false}}
+      />
       <Stack.Screen name="Otp" component={Otp} options={{headerShown: false}} />
       <Stack.Screen
         name="Lupa"

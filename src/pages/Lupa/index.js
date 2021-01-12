@@ -78,9 +78,6 @@ export default function Lupa({navigation, route}) {
           color: 'black',
           fontFamily: 'Montserrat-Light',
         }}
-        value={email}
-        // onChangeText={(value) => setEmail(value)}
-        color={valid == false ? 'red' : 'black'}
         onChangeText={(value) => validate(value)}
       />
       <TouchableOpacity
