@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  ScrollView,
+} from 'react-native';
 import {Button} from 'react-native-elements';
 import {showMessage} from 'react-native-flash-message';
 import axios from 'axios';
@@ -75,7 +81,7 @@ export default function Hasil({navigation, route}) {
   };
 
   return (
-    <View
+    <ScrollView
       style={{
         flex: 1,
         padding: 10,
@@ -90,7 +96,7 @@ export default function Hasil({navigation, route}) {
         }}>
         <Text
           style={{
-            fontSize: 22,
+            fontSize: 16,
             color: 'gray',
             fontFamily: 'Montserrat-Medium',
           }}>
@@ -98,7 +104,7 @@ export default function Hasil({navigation, route}) {
         </Text>
         <Text
           style={{
-            fontSize: 30,
+            fontSize: 22,
             fontFamily: 'Montserrat-SemiBold',
           }}>
           {/* {iduser} */}
@@ -116,7 +122,7 @@ export default function Hasil({navigation, route}) {
         }}>
         <Text
           style={{
-            fontSize: 22,
+            fontSize: 16,
             color: 'gray',
             fontFamily: 'Montserrat-Medium',
           }}>
@@ -124,7 +130,7 @@ export default function Hasil({navigation, route}) {
         </Text>
         <Text
           style={{
-            fontSize: 30,
+            fontSize: 22,
             fontFamily: 'Montserrat-SemiBold',
           }}>
           {barang}
@@ -141,7 +147,7 @@ export default function Hasil({navigation, route}) {
         }}>
         <Text
           style={{
-            fontSize: 22,
+            fontSize: 16,
             color: 'gray',
             fontFamily: 'Montserrat-Medium',
           }}>
@@ -149,7 +155,7 @@ export default function Hasil({navigation, route}) {
         </Text>
         <Text
           style={{
-            fontSize: 30,
+            fontSize: 22,
             fontFamily: 'Montserrat-SemiBold',
           }}>
           {tanggal_jual}
@@ -243,6 +249,6 @@ export default function Hasil({navigation, route}) {
           <ActivityIndicator size="large" color="red" />
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 }

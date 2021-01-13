@@ -15,6 +15,7 @@ import Hadiah from './Hadiah';
 import Otp from './Otp';
 import Lupa from './Lupa';
 import List from './list';
+import Notifikasi from './Notifikasi';
 
 export {
   Splash,
@@ -34,4 +35,5 @@ export {
   Hadiah,
   Lupa,
   List,
+  Notifikasi,
 };

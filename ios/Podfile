@@ -8,6 +8,8 @@ target 'GPTePartner' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
+
   target 'GPTePartnerTests' do
     inherit! :complete
     # Pods for testing

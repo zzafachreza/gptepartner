@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Icon} from 'react-native-elements';
 import {
@@ -20,6 +20,7 @@ import {
   Otp,
   Lupa,
   List,
+  Notifikasi,
 } from '../pages';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomNavigator} from '../components';
@@ -67,8 +68,8 @@ export default function Router() {
       <Stack.Screen
         name="MainApp"
         component={MainApp}
-        options={{
-          // headerShown: false,
+        options={({route, navigation}) => ({
+          // get reference to navigation
           headerTitle: 'GPT ePartner',
           headerLeft: false,
           headerTintColor: 'white',
@@ -76,16 +77,102 @@ export default function Router() {
             backgroundColor: 'red',
             elevation: 0, // remove shadow on Android
           },
-        }}
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Notifikasi')}
+              style={{
+                // marginRight: 100,
+                padding: 10,
+                margin: 10,
+                width: 100,
+                justifyContent: 'center',
+                alignItems: 'center',
+                // backgroundColor: 'yellow',
+              }}>
+              <Icon name="bell" type="font-awesome" color="white" size={20} />
+            </TouchableOpacity>
+          ),
+        })}
+        // options={{
+        //   // headerShown: false,
+
+        //   headerRight: ({navigation}) => (
+        //     <TouchableOpacity
+        //       onPress={() => alert('test')}
+        //       style={{
+        //         // marginRight: 100,
+        //         padding: 10,
+        //         margin: 10,
+        //         width: 100,
+        //         justifyContent: 'center',
+        //         alignItems: 'center',
+        //         // backgroundColor: 'yellow',
+        //       }}>
+        //       <Icon name="bell" type="font-awesome" color="white" size={20} />
+        //     </TouchableOpacity>
+        //   ),
+        // }}
       />
 
       <Stack.Screen name="Hasil" component={Hasil} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
-      <Stack.Screen name="Point" component={Point} />
-      <Stack.Screen name="Redeem" component={Redeem} />
-      <Stack.Screen name="GetRedeem" component={GetRedeem} />
+      <Stack.Screen
+        name="Point"
+        component={Point}
+        options={{
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: 'red',
+            elevation: 0, // remove shadow on Android
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Redeem"
+        component={Redeem}
+        options={{
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: 'red',
+            elevation: 0, // remove shadow on Android
+          },
+        }}
+      />
+      <Stack.Screen
+        name="GetRedeem"
+        component={GetRedeem}
+        options={{
+          headerTitle: 'Redeem Point',
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: 'red',
+            elevation: 0, // remove shadow on Android
+          },
+        }}
+      />
       <Stack.Screen name="Info" component={Info} />
-      <Stack.Screen name="Hadiah" component={Hadiah} />
+      <Stack.Screen
+        name="Hadiah"
+        component={Hadiah}
+        options={{
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: 'red',
+            elevation: 0, // remove shadow on Android
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Notifikasi"
+        component={Notifikasi}
+        options={{
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: 'red',
+            elevation: 0, // remove shadow on Android
+          },
+        }}
+      />
       <Stack.Screen
         name="List"
         component={List}
