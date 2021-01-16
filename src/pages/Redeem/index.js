@@ -64,9 +64,11 @@ export default function Redeem({navigation, route}) {
           style={{
             fontSize: 14,
             fontFamily: 'Montserrat-Medium',
+            flex: 1,
           }}>
           {item.tanggal}
         </Text>
+
         <Text
           style={{
             fontSize: 16,
@@ -109,6 +111,13 @@ export default function Redeem({navigation, route}) {
             color: 'grey',
           }}>
           - {item.point}
+        </Text>
+        <Text
+          style={{
+            fontSize: 10,
+            color: 'green',
+          }}>
+          {item.status}
         </Text>
       </View>
     </View>

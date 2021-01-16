@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Icon} from 'react-native-elements';
@@ -165,13 +165,35 @@ export default function Router() {
       <Stack.Screen
         name="Notifikasi"
         component={Notifikasi}
-        options={{
+        options={({route, navigation}) => ({
+          // get reference to navigation
+          headerTitle: 'Notifikasi',
+          headerLeft: false,
           headerTintColor: 'white',
           headerStyle: {
             backgroundColor: 'red',
             elevation: 0, // remove shadow on Android
           },
-        }}
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.replace('MainApp', {
+                  data: 'test',
+                })
+              }
+              style={{
+                // marginRight: 100,
+                padding: 10,
+                margin: 10,
+                width: 100,
+                justifyContent: 'center',
+                alignItems: 'center',
+                // backgroundColor: 'yellow',
+              }}>
+              <Icon name="home" type="font-awesome" color="white" size={20} />
+            </TouchableOpacity>
+          ),
+        })}
       />
       <Stack.Screen
         name="List"

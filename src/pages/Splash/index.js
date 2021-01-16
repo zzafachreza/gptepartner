@@ -16,6 +16,7 @@ export default function Splash({navigation}) {
   const width = new Animated.Value(0);
   const height = new Animated.Value(0);
   const top = new Animated.Value(0);
+  const [notif, setNotif] = useState(false);
 
   const [logo, setLogo] = useState('test');
   const [desc, setDesc] = useState('');
@@ -49,9 +50,10 @@ export default function Splash({navigation}) {
     requestCameraPermission();
 
     const unsubscribe = getData('user').then((res) => {
-      console.log(res);
+      // console.log(res);
       if (!res) {
         // console.log('beum login');
+
         setTimeout(() => {
           navigation.replace('GetStarted');
         }, 3000);

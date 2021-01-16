@@ -29,7 +29,7 @@ export default function List({navigation, route}) {
     Animated.loop(
       Animated.sequence([
         Animated.timing(top, {
-          toValue: windowHeight / 2 - 5,
+          toValue: 1,
           duration: 1000,
           // delay: 2000,
         }),
@@ -87,7 +87,7 @@ export default function List({navigation, route}) {
           <TouchableOpacity
             onPress={() => setlampu(true)}
             style={{
-              width: '90%',
+              width: '80%',
               backgroundColor: 'red',
               padding: 10,
             }}>
@@ -97,7 +97,7 @@ export default function List({navigation, route}) {
           <TouchableOpacity
             onPress={() => setlampu(false)}
             style={{
-              width: '90%',
+              width: '80%',
               backgroundColor: 'grey',
               padding: 10,
             }}>
@@ -118,6 +118,7 @@ const styles = (windowHeight) =>
     },
     preview: {
       flex: 1,
+      // margin: 30,
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -131,8 +132,8 @@ const styles = (windowHeight) =>
       margin: 20,
     },
     box: {
-      width: '90%',
-      height: windowHeight / 2,
+      width: '80%',
+      height: windowHeight / 4,
       // borderRadius: 10,
       borderWidth: 2,
       // justifyContent: 'center',

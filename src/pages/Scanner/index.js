@@ -41,6 +41,21 @@ export default function Scanner({navigation}) {
       });
   };
 
+  const cari = (value) => {
+    setKey(value);
+    setLoading(true);
+    // alert(key);
+    axios
+      .post('https://hikvisionindonesia.co.id/api/get_name.php', {
+        key: value,
+      })
+      .then((res) => {
+        // console.log(res.data);
+        setLoading(false);
+        setData(res.data);
+      });
+  };
+
   const renderItem = ({item}) => (
     <TouchableOpacity
       onPress={() =>
@@ -90,6 +105,7 @@ export default function Scanner({navigation}) {
       <View
         style={{
           padding: 10,
+          paddingBottom: 100,
         }}>
         <View
           style={{
@@ -115,7 +131,7 @@ export default function Scanner({navigation}) {
             autoCapitalize="none"
             placeholder="masukan nama barang"
             value={key}
-            onChangeText={(value) => setKey(value)}
+            onChangeText={(value) => cari(value)}
           />
 
           <TouchableOpacity

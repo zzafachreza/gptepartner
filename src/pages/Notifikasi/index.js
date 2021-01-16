@@ -66,7 +66,7 @@ export default function Notifikasi({navigation}) {
             style={{
               flex: 1,
               width: '100%',
-              height: 200,
+              height: 250,
               borderTopRightRadius: 10,
               borderTopLeftRadius: 10,
             }}

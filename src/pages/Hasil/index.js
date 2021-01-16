@@ -213,7 +213,11 @@ export default function Hasil({navigation, route}) {
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
-          onPress={() => navigation.replace('MainApp')}
+          onPress={() =>
+            navigation.replace('MainApp', {
+              modal: false,
+            })
+          }
           style={{
             justifyContent: 'center',
             alignItems: 'center',
