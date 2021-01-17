@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import {storeData, getData} from '../../utils/localStorage';
+import OneSignal from 'react-native-onesignal';
 
 export default function Splash({navigation}) {
   const width = new Animated.Value(0);
@@ -48,9 +49,10 @@ export default function Splash({navigation}) {
 
   useEffect(() => {
     requestCameraPermission();
+    OneSignal.setAppId('005361d7-6c23-47a0-ab5d-f2120576bbb7');
 
     const unsubscribe = getData('user').then((res) => {
-      // console.log(res);
+      console.log(res);
       if (!res) {
         // console.log('beum login');
 

@@ -22,8 +22,10 @@ import FastImage from 'react-native-fast-image';
 import OneSignal from 'react-native-onesignal';
 
 import Carousel from 'react-native-snap-carousel';
-import ImageModal from 'react-native-image-modal';
-import Draggable from 'react-native-draggable';
+import CountDown from 'react-native-countdown-component';
+
+// import moment to help you play with date and time
+import moment from 'moment';
 
 const wait = (timeout) => {
   return new Promise((resolve) => {
@@ -38,21 +40,11 @@ export default function Home({navigation, route}) {
   const [point, setPoint] = useState(0);
   const [data, setData] = useState([]);
   const [popup, setPopup] = useState('');
+  const [exp, setExp] = useState('');
+  const [totalDuration, setTotalDuration] = useState(false);
 
   const tutup = () => {
-    Alert.alert(
-      'GPT ePartner',
-      'Sembunyikan ini ?',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'OK', onPress: () => setModalVisible(false)},
-      ],
-      {cancelable: false},
-    );
+    setModalVisible(false);
   };
 
   const onRefresh = React.useCallback(() => {
@@ -87,8 +79,16 @@ export default function Home({navigation, route}) {
       navigation.replace('Notifikasi');
     });
 
+    OneSignal.addPermissionObserver((event) => {
+      console.log('OneSignal: permission changed:', event);
+    });
+
     OneSignal.addSubscriptionObserver((event) => {
       console.log('OneSignal: subscription changed:', event);
+    });
+
+    OneSignal.addEmailSubscriptionObserver((event) => {
+      console.log('OneSignal: email subscription changed: ', event);
     });
 
     getData('user').then((res) => {
@@ -110,6 +110,16 @@ export default function Home({navigation, route}) {
     axios.get('https://hikvisionindonesia.co.id/api/popup.php').then((res) => {
       setPopup(res.data);
     });
+
+    axios.get('https://hikvisionindonesia.co.id/api/tgl.php').then((res) => {
+      setExp(res.data);
+      // console.log(obj.now);
+      setTimeout(() => {
+        setTotalDuration(true);
+      }, 1000);
+    });
+
+    // alert(d);
   }, []);
 
   const windowWidth = Dimensions.get('window').width;
@@ -129,20 +139,6 @@ export default function Home({navigation, route}) {
           // marginRight: 20,
         }}>
         {/* <Text style={{fontSize: 30}}>{item.id}</Text> */}
-        <Text
-          style={{
-            backgroundColor: 'black',
-            color: 'white',
-            padding: 10,
-            position: 'absolute',
-            bottom: 0,
-            right: 0,
-            opacity: 0.9,
-            justifyContent: 'center',
-            alignSelf: 'flex-start',
-          }}>
-          {item.desc}
-        </Text>
       </ImageBackground>
     );
   };
@@ -261,17 +257,41 @@ export default function Home({navigation, route}) {
           <View
             style={{
               padding: 5,
+              flexDirection: 'row',
               // alignItems: 'center',
             }}>
             <Text
               style={{
+                flex: 1,
                 fontSize: 18,
                 left: 20,
                 fontFamily: 'Nunito-Bold',
                 color: 'white',
+                justifyContent: 'center',
+                alignSelf: 'center',
               }}>
               Info dan Promo Spesial
             </Text>
+            {totalDuration && (
+              <>
+                <CountDown
+                  size={15}
+                  until={exp}
+                  onFinish={() => alert('Finished')}
+                  digitStyle={{
+                    backgroundColor: '#FFF',
+                  }}
+                  ds
+                  digitTxtStyle={{color: '#000'}}
+                  timeLabelStyle={{color: '#FFF', fontWeight: 'bold'}}
+                  separatorStyle={{color: '#FFF'}}
+                  timeToShow={['H', 'M', 'S']}
+                  disableHoursLimit
+                  timeLabels={{h: 'Jam', m: 'Menit', s: 'Detik'}}
+                  showSeparator
+                />
+              </>
+            )}
           </View>
 
           {/* <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}> */}
@@ -344,41 +364,55 @@ export default function Home({navigation, route}) {
         </View>
       </ScrollView>
       {modalVisible && (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Notifikasi');
-            setTimeout(() => {
-              setModalVisible(false);
-            }, 1500);
-          }}
-          onLongPress={() => tutup()}
-          style={{
-            flex: 1,
-            position: 'absolute',
-            justifyContent: 'flex-end',
-            alignItems: 'flex-end',
-            // backgroundColor: 'white',
-            width: '100%',
-            top: 0,
-            // opacity: 0.4,
-            height: '100%',
-          }}>
-          <FastImage
+        <>
+          <TouchableOpacity
+            onPress={tutup}
             style={{
-              height: 100,
-              width: 100,
-              // backgroundColor: '#ddd',
+              position: 'absolute',
+              justifyContent: 'flex-end',
+              alignItems: 'flex-end',
+              top: windowHeight / 2 - 40,
+              right: 20,
+              padding: 5,
+              // backgroundColor: 'white',
+            }}>
+            <Icon name="times" type="font-awesome" color="red" size={35} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Notifikasi');
+              // setTimeout(() => {
+              //   setModalVisible(false);
+              // }, 1500);
+            }}
+            style={{
+              // flex: 1,
+              position: 'absolute',
+              justifyContent: 'flex-end',
+              alignItems: 'flex-end',
+              // backgroundColor: 'white',
+              // width: '10%',
+              top: windowHeight / 2,
+              right: 0,
+              // opacity: 0.4,
+            }}>
+            <FastImage
+              style={{
+                height: 100,
+                width: 100,
+                // backgroundColor: '#ddd',
 
-              flex: 1,
-            }}
-            source={{
-              uri: popup,
-              headers: {Authorization: 'someAuthToken'},
-              priority: FastImage.priority.normal,
-            }}
-            resizeMode={FastImage.resizeMode.contain}
-          />
-        </TouchableOpacity>
+                flex: 1,
+              }}
+              source={{
+                uri: popup,
+                headers: {Authorization: 'someAuthToken'},
+                priority: FastImage.priority.normal,
+              }}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+          </TouchableOpacity>
+        </>
       )}
     </>
   );

@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   RefreshControl,
   Image,
+  Dimensions,
 } from 'react-native';
 import {storeData, getData} from '../../utils/localStorage';
 import axios from 'axios';
@@ -21,6 +22,8 @@ const wait = (timeout) => {
 export default function Notifikasi({navigation}) {
   const [refreshing, setRefreshing] = React.useState(false);
   const [data, setData] = useState([]);
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -51,14 +54,13 @@ export default function Notifikasi({navigation}) {
         elevation: 2,
         // borderWidth: 1,
         // borderColor: 'red',
+        overflow: 'hidden',
         borderRadius: 10,
         flexDirection: 'row',
       }}>
       <View
         style={{
           flex: 2,
-          justifyContent: 'center',
-          padding: 0,
         }}>
         <View>
           <Image
@@ -66,9 +68,7 @@ export default function Notifikasi({navigation}) {
             style={{
               flex: 1,
               width: '100%',
-              height: 250,
-              borderTopRightRadius: 10,
-              borderTopLeftRadius: 10,
+              height: windowWidth - 100,
             }}
           />
         </View>
