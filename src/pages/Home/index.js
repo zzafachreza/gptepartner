@@ -225,21 +225,12 @@ export default function Home({navigation, route}) {
           }}>
           <View
             style={{
-              padding: 5,
+              // padding: 5,
+              paddingTop: 5,
+              paddingBottom: 5,
+              paddingLeft: 40,
               flexDirection: 'row',
             }}>
-            <Text
-              style={{
-                flex: 1,
-                fontSize: 18,
-                left: 20,
-                fontFamily: 'Nunito-Bold',
-                color: 'white',
-                justifyContent: 'center',
-                alignSelf: 'center',
-              }}>
-              Info dan Promo Spesial
-            </Text>
             {totalDuration && (
               <>
                 <CountDown
@@ -249,15 +240,37 @@ export default function Home({navigation, route}) {
                   digitStyle={{
                     backgroundColor: '#FFF',
                   }}
-                  ds
-                  digitTxtStyle={{color: '#000'}}
-                  timeLabelStyle={{color: '#FFF', fontWeight: 'bold'}}
+                  digitTxtStyle={{
+                    color: '#000',
+                    fontFamily: 'Nunito-ExtraBold',
+                  }}
+                  timeLabelStyle={{
+                    color: '#FFF',
+                    fontFamily: 'Nunito-Bold',
+                  }}
                   separatorStyle={{color: '#FFF'}}
                   timeToShow={['H', 'M', 'S']}
                   disableHoursLimit
-                  timeLabels={{h: 'Jam', m: 'Menit', s: 'Detik'}}
+                  timeLabels={{
+                    h: null,
+                    m: null,
+                    s: null,
+                  }}
                   showSeparator
                 />
+                <Text
+                  style={{
+                    // flex: 1,
+                    fontSize: 20,
+                    // left: 20,
+                    left: 5,
+                    fontFamily: 'Nunito-Bold',
+                    color: 'white',
+                    justifyContent: 'center',
+                    alignSelf: 'center',
+                  }}>
+                  PROMO BERAKHIR DALAM
+                </Text>
               </>
             )}
           </View>
