@@ -107,13 +107,14 @@ export default function EditProfile({navigation, route}) {
       />
 
       <Input
-        label="E-mail : "
+        label="E-mail : (Tidak Dapat Diubah)"
         placeholder="masukan alamat email"
         keyboardType="email-address"
         leftIcon={{type: 'font-awesome', name: 'envelope'}}
         value={email}
+        editable={false}
         onChangeText={(value) => validate(value)}
-        color={valid == false ? 'red' : 'black'}
+        color={'red'}
       />
 
       <Input
@@ -122,6 +123,7 @@ export default function EditProfile({navigation, route}) {
         leftIcon={{type: 'font-awesome', name: 'key'}}
         secureTextEntry={true}
         value={password}
+        autoCapitalize="none"
         onChangeText={(value) => setPassword(value)}
       />
 

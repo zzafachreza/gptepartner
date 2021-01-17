@@ -29,7 +29,7 @@ export default function List({navigation, route}) {
     Animated.loop(
       Animated.sequence([
         Animated.timing(top, {
-          toValue: 1,
+          toValue: windowHeight / 4,
           duration: 1000,
           // delay: 2000,
         }),
@@ -39,7 +39,7 @@ export default function List({navigation, route}) {
         }),
       ]),
       {
-        iterations: 5,
+        iterations: 10,
       },
     ).start();
   };

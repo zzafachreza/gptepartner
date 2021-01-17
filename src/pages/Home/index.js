@@ -8,24 +8,15 @@ import {
   Dimensions,
   RefreshControl,
   ImageBackground,
-  Image,
-  ActivityIndicator,
-  Modal,
-  Alert,
-  TouchableWithoutFeedback,
 } from 'react-native';
-// import {FlatListSlider} from 'react-native-flatlist-slider';
-import {Icon, ListItem} from 'react-native-elements';
+import {Icon, ListItem, Button} from 'react-native-elements';
 import {storeData, getData} from '../../utils/localStorage';
 import axios from 'axios';
 import FastImage from 'react-native-fast-image';
 import OneSignal from 'react-native-onesignal';
-
 import Carousel from 'react-native-snap-carousel';
 import CountDown from 'react-native-countdown-component';
-
-// import moment to help you play with date and time
-import moment from 'moment';
+import Modal from 'react-native-modal';
 
 const wait = (timeout) => {
   return new Promise((resolve) => {
@@ -35,11 +26,17 @@ const wait = (timeout) => {
 
 export default function Home({navigation, route}) {
   const [modalVisible, setModalVisible] = useState(true);
+  const [isModalVisible2, setModalVisible2] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
   const [refreshing, setRefreshing] = React.useState(false);
   const [user, setUser] = useState({});
   const [point, setPoint] = useState(0);
   const [data, setData] = useState([]);
   const [popup, setPopup] = useState('');
+  const [popup2, setPopup2] = useState('');
   const [exp, setExp] = useState('');
   const [totalDuration, setTotalDuration] = useState(false);
 
@@ -70,25 +67,11 @@ export default function Home({navigation, route}) {
   }, []);
 
   useEffect(() => {
-    // OneSignal.setLogLevel(6, 0);
     OneSignal.setAppId('005361d7-6c23-47a0-ab5d-f2120576bbb7');
-
     OneSignal.setNotificationOpenedHandler((openedEvent) => {
       console.log('OneSignal: notification opened:', openedEvent);
       const {action, notification} = openedEvent;
       navigation.replace('Notifikasi');
-    });
-
-    OneSignal.addPermissionObserver((event) => {
-      console.log('OneSignal: permission changed:', event);
-    });
-
-    OneSignal.addSubscriptionObserver((event) => {
-      console.log('OneSignal: subscription changed:', event);
-    });
-
-    OneSignal.addEmailSubscriptionObserver((event) => {
-      console.log('OneSignal: email subscription changed: ', event);
     });
 
     getData('user').then((res) => {
@@ -110,6 +93,9 @@ export default function Home({navigation, route}) {
     axios.get('https://hikvisionindonesia.co.id/api/popup.php').then((res) => {
       setPopup(res.data);
     });
+    axios.get('https://hikvisionindonesia.co.id/api/popup2.php').then((res) => {
+      setPopup2(res.data);
+    });
 
     axios.get('https://hikvisionindonesia.co.id/api/tgl.php').then((res) => {
       setExp(res.data);
@@ -118,14 +104,10 @@ export default function Home({navigation, route}) {
         setTotalDuration(true);
       }, 1000);
     });
-
-    // alert(d);
   }, []);
 
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
-
-  // console.log('lebar' + windowWidth);
 
   const _renderItem = ({item, index}) => {
     return (
@@ -134,9 +116,6 @@ export default function Home({navigation, route}) {
         style={{
           height: 200,
           padding: 50,
-          // marginBottom: 100,
-          // marginLeft: 20,
-          // marginRight: 20,
         }}>
         {/* <Text style={{fontSize: 30}}>{item.id}</Text> */}
       </ImageBackground>
@@ -187,20 +166,12 @@ export default function Home({navigation, route}) {
         <View
           style={{
             height: windowHeight / 10,
-            // paddingLeft: 30,
-            // margin: 1,
-            // elevation: 1,
-            // justifyContent: 'center',
-            // alignItems: 'center',
-            // backgroundColor: 'yellow',
             flexDirection: 'row',
           }}>
           <View
             style={{
               flex: 1,
-              // backgroundColor: 'yellow',
               justifyContent: 'center',
-              // alignItems: 'center',
               paddingLeft: 20,
             }}>
             <Text
@@ -249,16 +220,13 @@ export default function Home({navigation, route}) {
         <View
           style={{
             backgroundColor: 'red',
-
             elevation: 1,
-            // bottom: 5,
             borderTopLeftRadius: 50,
           }}>
           <View
             style={{
               padding: 5,
               flexDirection: 'row',
-              // alignItems: 'center',
             }}>
             <Text
               style={{
@@ -293,8 +261,6 @@ export default function Home({navigation, route}) {
               </>
             )}
           </View>
-
-          {/* <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}> */}
         </View>
         <Carousel
           layout="default"
@@ -316,12 +282,9 @@ export default function Home({navigation, route}) {
           style={{
             backgroundColor: 'red',
             height: windowHeight / 3.5,
-            // margin: 10,
             paddingHorizontal: 20,
             paddingBottom: '10%',
             paddingTop: '2%',
-            // borderBottomLeftRadius: 30,
-            // borderBottomRightRadius: 30,
           }}>
           <TouchableOpacity
             onPress={() => navigation.navigate('Point', {id: user.id})}>
@@ -363,6 +326,43 @@ export default function Home({navigation, route}) {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <Modal
+        isVisible={isModalVisible2}
+        animationIn="zoomInDown"
+        animationOut="zoomOutDown"
+        animationOutTiming={2000}
+        deviceHeight={windowHeight}
+        animationInTiming={1000}>
+        <TouchableOpacity
+          onPress={() => setModalVisible2(false)}
+          style={{
+            flex: 1,
+          }}>
+          <Icon name="times" type="font-awesome" color="red" size={35} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setModalVisible2(false);
+            navigation.navigate('Notifikasi');
+          }}
+          style={{
+            position: 'absolute',
+          }}>
+          <FastImage
+            style={{
+              height: windowWidth,
+              width: windowWidth,
+              // flex: 1,
+            }}
+            source={{
+              uri: popup2,
+              headers: {Authorization: 'someAuthToken'},
+              priority: FastImage.priority.normal,
+            }}
+            resizeMode={FastImage.resizeMode.contain}
+          />
+        </TouchableOpacity>
+      </Modal>
       {modalVisible && (
         <>
           <TouchableOpacity
@@ -380,28 +380,21 @@ export default function Home({navigation, route}) {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('Notifikasi');
-              // setTimeout(() => {
-              //   setModalVisible(false);
-              // }, 1500);
+              // navigation.navigate('Notifikasi');
+              setModalVisible2(true);
             }}
             style={{
               // flex: 1,
               position: 'absolute',
               justifyContent: 'flex-end',
               alignItems: 'flex-end',
-              // backgroundColor: 'white',
-              // width: '10%',
               top: windowHeight / 2,
               right: 0,
-              // opacity: 0.4,
             }}>
             <FastImage
               style={{
                 height: 100,
                 width: 100,
-                // backgroundColor: '#ddd',
-
                 flex: 1,
               }}
               source={{
@@ -421,33 +414,5 @@ export default function Home({navigation, route}) {
 const styles = StyleSheet.create({
   page: {
     backgroundColor: 'white',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    // backgroundColor: 'white',
-    borderRadius: 20,
-    // padding: 120,
-    alignItems: 'center',
-  },
-  openButton: {
-    backgroundColor: '#F194FF',
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
   },
 });

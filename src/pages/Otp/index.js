@@ -49,7 +49,7 @@ export default function Otp({navigation, route}) {
           fontSize: 20,
         }}>
         {/* {validasi} */}
-        Masukan Kode OTP
+        Cek Email Anda dan Masukan Kode OTP
       </Text>
 
       <TextInput

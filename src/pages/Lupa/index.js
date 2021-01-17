@@ -68,7 +68,7 @@ export default function Lupa({navigation, route}) {
       <TextInput
         autoFocus={true}
         keyboardType="email-address"
-        autoCapitalize={false}
+        autoCapitalize="none"
         maxLength={100}
         style={{
           borderBottomWidth: 1,

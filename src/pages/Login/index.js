@@ -101,6 +101,7 @@ export default function Login({navigation}) {
         leftIcon={{type: 'font-awesome', name: 'key'}}
         secureTextEntry={true}
         value={password}
+        autoCapitalize="none"
         onChangeText={(value) => setPassword(value)}
       />
 

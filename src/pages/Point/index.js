@@ -71,7 +71,23 @@ export default function Point({navigation, route}) {
         </Text>
         <Text
           style={{
-            fontSize: 16,
+            fontSize: 14,
+            color: 'black',
+            fontFamily: 'Montserrat-Medium',
+          }}>
+          No Seri : {item.no_seri}
+        </Text>
+        <Text
+          style={{
+            fontSize: 14,
+            color: 'red',
+            fontFamily: 'Montserrat-Medium',
+          }}>
+          {item.keterangan}
+        </Text>
+        <Text
+          style={{
+            fontSize: 14,
             fontFamily: 'Montserrat-Medium',
           }}>
           Mendapatkan Point Sebesar

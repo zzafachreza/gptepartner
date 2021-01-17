@@ -43,7 +43,7 @@ export default function Splash({navigation}) {
         // console.log('Camera permission denied');
       }
     } catch (err) {
-      console.warn(err);
+      // console.warn(err);
     }
   };
 
