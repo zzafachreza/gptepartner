@@ -43,7 +43,7 @@ export default function GetRedeem({navigation, route}) {
     });
   }, []);
 
-  const ambil = (z) => {
+  const ambil = (id_hadiah, z) => {
     if (route.params.point < z) {
       setLoading(false);
       showMessage({
@@ -60,14 +60,14 @@ export default function GetRedeem({navigation, route}) {
             onPress: () => console.log('Cancel Pressed'),
             style: 'cancel',
           },
-          {text: 'OK', onPress: () => simpan(z)},
+          {text: 'OK', onPress: () => simpan(id_hadiah, z)},
         ],
         {cancelable: false},
       );
     }
   };
 
-  const simpan = (x) => {
+  const simpan = (id_hadiah, x) => {
     setLoading(true);
     // navigation.replace('Redeem');
 
@@ -81,6 +81,7 @@ export default function GetRedeem({navigation, route}) {
       axios
         .post('https://hikvisionindonesia.co.id/api/getredeem.php', {
           id: route.params.id,
+          id_hadiah: id_hadiah,
           point: x,
         })
         .then((res) => {
@@ -105,7 +106,7 @@ export default function GetRedeem({navigation, route}) {
 
   const renderItem = ({item}) => (
     <TouchableOpacity
-      onPress={() => ambil(item.point)}
+      onPress={() => ambil(item.id, item.point)}
       style={{
         padding: 10,
         margin: 10,

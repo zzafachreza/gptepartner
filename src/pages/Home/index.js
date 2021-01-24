@@ -108,14 +108,14 @@ export default function Home({navigation, route}) {
 
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
-
+  const ratio = 192 / 108;
   const _renderItem = ({item, index}) => {
     return (
       <ImageBackground
         source={{uri: item.image}}
         style={{
-          height: 200,
-          padding: 50,
+          width: windowWidth,
+          height: Math.round((windowWidth * 9) / 16),
         }}>
         {/* <Text style={{fontSize: 30}}>{item.id}</Text> */}
       </ImageBackground>
@@ -228,7 +228,7 @@ export default function Home({navigation, route}) {
               // padding: 5,
               paddingTop: 5,
               paddingBottom: 5,
-              paddingLeft: 40,
+              paddingLeft: 30,
               flexDirection: 'row',
             }}>
             {totalDuration && (
@@ -236,7 +236,7 @@ export default function Home({navigation, route}) {
                 <CountDown
                   size={15}
                   until={exp}
-                  onFinish={() => alert('Finished')}
+                  // onFinish={() => alert('Finished')}
                   digitStyle={{
                     backgroundColor: '#FFF',
                   }}
@@ -261,7 +261,7 @@ export default function Home({navigation, route}) {
                 <Text
                   style={{
                     // flex: 1,
-                    fontSize: 20,
+                    fontSize: windowWidth / 28,
                     // left: 20,
                     left: 5,
                     fontFamily: 'Nunito-Bold',

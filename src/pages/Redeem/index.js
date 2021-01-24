@@ -115,6 +115,7 @@ export default function Redeem({navigation, route}) {
         <Text
           style={{
             fontSize: 10,
+            textAlign: 'center',
             color: 'green',
           }}>
           {item.status}
