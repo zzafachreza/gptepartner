@@ -6,6 +6,7 @@ import {
   TextInput,
   ActivityIndicator,
   FlatList,
+  Dimensions,
   Image,
   RefreshControl,
   ScrollView,
@@ -22,6 +23,8 @@ const wait = (timeout) => {
   });
 };
 export default function GetRedeem({navigation, route}) {
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
   const [point, setpoint] = useState(0);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -51,19 +54,43 @@ export default function GetRedeem({navigation, route}) {
         type: 'warning',
       });
     } else {
-      Alert.alert(
-        'GPT ePartner',
-        'Anda yakin akan redeem sebesar ' + z + ' Point ?',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {text: 'OK', onPress: () => simpan(id_hadiah, z)},
-        ],
-        {cancelable: false},
-      );
+      if (z > 1) {
+        Alert.alert(
+          'GPT ePartner',
+          'Anda yakin akan redeem sebesar ' + z + ' Point ?',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => simpan(id_hadiah, z)},
+          ],
+          {cancelable: false},
+        );
+      } else {
+        Alert.alert(
+          'GPT ePartner',
+          'Anda yakin akan redeem Point Cash Back Tunai ?',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {
+              text: 'OK',
+              onPress: () =>
+                navigation.navigate('Hadiah', {
+                  z: route.params.point,
+                  id: route.params.id,
+                  id_hadiah: id_hadiah,
+                }),
+            },
+          ],
+          {cancelable: false},
+        );
+      }
     }
   };
 
@@ -128,21 +155,33 @@ export default function GetRedeem({navigation, route}) {
 
           flex: 1,
         }}>
-        <Text
-          style={{
-            fontSize: 20,
-            fontFamily: 'Montserrat-Medium',
-            color: 'red',
-          }}>
-          {item.point}
-        </Text>
-        <Text
-          style={{
-            color: 'black',
-            fontFamily: 'Montserrat-bold',
-          }}>
-          Point
-        </Text>
+        {item.point == 1 ? (
+          <Image
+            source={require('../../assets/dolar.png')}
+            style={{
+              width: 50,
+              height: 50,
+            }}
+          />
+        ) : (
+          <>
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: 'Montserrat-Medium',
+                color: 'red',
+              }}>
+              {item.point}
+            </Text>
+            <Text
+              style={{
+                color: 'black',
+                fontFamily: 'Montserrat-bold',
+              }}>
+              Point
+            </Text>
+          </>
+        )}
       </View>
 
       <View
@@ -158,10 +197,16 @@ export default function GetRedeem({navigation, route}) {
           }}>
           Mendapatkan Hadiah
         </Text>
-        <View style={{flex: 2}}>
+        <View
+          style={{
+            flex: 2,
+            padding: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
           <Image
             source={{uri: item.image}}
-            style={{flex: 1, width: '80%', height: 100}}
+            style={{width: 150, resizeMode: 'contain', aspectRatio: 1}}
           />
         </View>
         <Text

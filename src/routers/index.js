@@ -155,6 +155,7 @@ export default function Router() {
         name="Hadiah"
         component={Hadiah}
         options={{
+          headerTitle: 'Cashback Tunai',
           headerTintColor: 'white',
           headerStyle: {
             backgroundColor: 'red',

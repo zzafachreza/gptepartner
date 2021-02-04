@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import Router from './routers';
 import FlashMessage from 'react-native-flash-message';
-import {LogBox} from 'react-native';
+import {LogBox, StatusBar} from 'react-native';
 
 export default function App() {
   LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
@@ -12,6 +12,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Router />
+      <StatusBar backgroundColor="red" barStyle="light-content" />
       <FlashMessage position="top" />
     </NavigationContainer>
   );
