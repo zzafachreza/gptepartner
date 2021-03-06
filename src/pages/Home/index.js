@@ -8,15 +8,16 @@ import {
   Dimensions,
   RefreshControl,
   ImageBackground,
+  Image,
 } from 'react-native';
 import {Icon, ListItem, Button} from 'react-native-elements';
 import {storeData, getData} from '../../utils/localStorage';
 import axios from 'axios';
 import FastImage from 'react-native-fast-image';
-import OneSignal from 'react-native-onesignal';
 import Carousel from 'react-native-snap-carousel';
 import CountDown from 'react-native-countdown-component';
 import Modal from 'react-native-modal';
+import messaging from '@react-native-firebase/messaging';
 
 const wait = (timeout) => {
   return new Promise((resolve) => {
@@ -25,7 +26,7 @@ const wait = (timeout) => {
 };
 
 export default function Home({navigation, route}) {
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const [isModalVisible2, setModalVisible2] = useState(false);
 
   const toggleModal = () => {
@@ -36,6 +37,7 @@ export default function Home({navigation, route}) {
   const [point, setPoint] = useState(0);
   const [data, setData] = useState([]);
   const [popup, setPopup] = useState('');
+  const [token, setToken] = useState('');
   const [popup2, setPopup2] = useState('');
   const [exp, setExp] = useState('');
   const [totalDuration, setTotalDuration] = useState(false);
@@ -67,14 +69,8 @@ export default function Home({navigation, route}) {
   }, []);
 
   useEffect(() => {
-    OneSignal.setAppId('005361d7-6c23-47a0-ab5d-f2120576bbb7');
-    OneSignal.setNotificationOpenedHandler((openedEvent) => {
-      console.log('OneSignal: notification opened:', openedEvent);
-      const {action, notification} = openedEvent;
-      navigation.replace('Notifikasi');
-    });
-
     getData('user').then((res) => {
+      console.log('users', res);
       setUser(res);
       axios
         .post('https://hikvisionindonesia.co.id/api/point.php', {id: res.id})
@@ -87,6 +83,19 @@ export default function Home({navigation, route}) {
         .then((res) => {
           // console.log(res.data);
           setData(res.data);
+        });
+
+      //set pop up
+      axios
+        .post('https://hikvisionindonesia.co.id/api/popup_status.php', {
+          id: res.id,
+        })
+        .then((res) => {
+          if (res.data > 0) {
+            setModalVisible(true);
+          } else {
+            setModalVisible(false);
+          }
         });
     });
 
@@ -347,32 +356,29 @@ export default function Home({navigation, route}) {
         deviceHeight={windowHeight}
         animationInTiming={1000}>
         <TouchableOpacity
-          onPress={() => setModalVisible2(false)}
-          style={{
-            flex: 1,
-          }}>
-          <Icon name="times" type="font-awesome" color="red" size={35} />
-        </TouchableOpacity>
-        <TouchableOpacity
           onPress={() => {
             setModalVisible2(false);
             navigation.navigate('Notifikasi');
           }}
           style={{
-            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
-          <FastImage
+          <TouchableOpacity
+            onPress={() => setModalVisible2(false)}
+            style={{marginBottom: '5%'}}>
+            <Icon name="times" type="font-awesome" color="red" size={35} />
+          </TouchableOpacity>
+          <Image
             style={{
-              height: windowWidth,
-              width: windowWidth,
+              width: windowWidth - 50,
+              margin: 10,
+              // height: 300,
+              resizeMode: 'contain',
+              aspectRatio: 1,
               // flex: 1,
             }}
-            source={{
-              uri: popup2,
-              headers: {Authorization: 'someAuthToken'},
-              priority: FastImage.priority.normal,
-            }}
-            resizeMode={FastImage.resizeMode.contain}
+            source={{uri: popup2}}
           />
         </TouchableOpacity>
       </Modal>
@@ -394,7 +400,17 @@ export default function Home({navigation, route}) {
           <TouchableOpacity
             onPress={() => {
               // navigation.navigate('Notifikasi');
+              console.log(user);
+              axios
+                .post('https://hikvisionindonesia.co.id/api/update_popup.php', {
+                  id: user.id,
+                  popup: 0,
+                })
+                .then((res) => {
+                  console.log(res);
+                });
               setModalVisible2(true);
+              setModalVisible(false);
             }}
             style={{
               // flex: 1,

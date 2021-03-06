@@ -11,9 +11,95 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import {storeData, getData} from '../../utils/localStorage';
-import OneSignal from 'react-native-onesignal';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import PushNotification from 'react-native-push-notification';
+import messaging from '@react-native-firebase/messaging';
+import {useNavigation} from '@react-navigation/native';
 
 export default function Splash({navigation}) {
+  PushNotification.configure({
+    // (optional) Called when Token is generated (iOS and Android)
+    onRegister: function (token) {
+      console.log('TOKEN:', token);
+      const tokenRefresh = token;
+      storeData('token', token);
+      getData('user').then((res) => {
+        console.log(res);
+        axios
+          .post('https://hikvisionindonesia.co.id/api/update_token.php', {
+            id: res.id,
+            token: tokenRefresh.token,
+          })
+          .then(function (response) {
+            console.log(response);
+          });
+      });
+    },
+
+    // (required) Called when a remote is received or opened, or local notification is opened
+    onNotification: function (notification) {
+      const json = JSON.stringify(notification);
+      const obj = JSON.parse(json);
+
+      console.log(obj);
+      // if (obj.userInteraction) {
+      //   navigation.replace('Notifikasi');
+      // }
+
+      if (obj.userInteraction) {
+        const unsubscribe = getData('user').then((res) => {
+          console.log(res);
+          if (!res) {
+            // console.log('beum login');
+            setTimeout(() => {
+              navigation.replace('GetStarted');
+            }, 3000);
+          } else {
+            // console.log('sudah login logon');
+            setTimeout(() => {
+              navigation.replace('Notifikasi');
+              axios
+                .post('https://hikvisionindonesia.co.id/api/update_popup.php', {
+                  id: res.id,
+                  popup: 0,
+                })
+                .then((res) => {
+                  console.log(res);
+                });
+            }, 3000);
+          }
+        });
+
+        // alert(obj.userInteraction);
+      }
+
+      // process the notification
+      // (required) Called when a remote is received or opened, or local notification is opened
+      notification.finish(PushNotificationIOS.FetchResult.NoData);
+    },
+
+    // (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
+    onAction: function (notification) {
+      // console.log('ACTION:', notification.action);
+      // console.log('NOTIFICATIONzzzz:', notification);
+      // process the action
+    },
+
+    // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
+    onRegistrationError: function (err) {
+      console.error(err.message, err);
+    },
+
+    // IOS ONLY (optional): default: all - Permissions to register.
+    permissions: {
+      alert: true,
+      badge: true,
+      sound: true,
+    },
+    popInitialNotification: true,
+    requestPermissions: true,
+  });
+
   const width = new Animated.Value(0);
   const height = new Animated.Value(0);
   const top = new Animated.Value(0);
@@ -49,19 +135,36 @@ export default function Splash({navigation}) {
 
   useEffect(() => {
     requestCameraPermission();
-    OneSignal.setAppId('005361d7-6c23-47a0-ab5d-f2120576bbb7');
+
+    messaging().onMessage(async (remoteMessage) => {
+      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      const json = JSON.stringify(remoteMessage);
+      const obj = JSON.parse(json);
+      // alert(obj.notification);
+      console.log(obj.notification);
+      PushNotification.checkPermissions((permissions) => {
+        console.log('permissions', permissions);
+        if (permissions.alert === true) {
+          PushNotification.localNotification({
+            channelId: 'gptepartner',
+            title: obj.notification.title,
+            message: obj.notification.body,
+            playSound: true,
+            bigPictureUrl: obj.notification.android.imageUrl,
+          });
+        }
+      });
+    });
 
     const unsubscribe = getData('user').then((res) => {
       console.log(res);
       if (!res) {
         // console.log('beum login');
-
         setTimeout(() => {
           navigation.replace('GetStarted');
         }, 3000);
       } else {
         // console.log('sudah login logon');
-
         setTimeout(() => {
           navigation.replace('MainApp');
         }, 3000);

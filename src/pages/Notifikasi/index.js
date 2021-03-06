@@ -68,7 +68,8 @@ export default function Notifikasi({navigation}) {
             style={{
               flex: 1,
               width: '100%',
-              height: windowWidth - 100,
+              resizeMode: 'contain',
+              aspectRatio: 1,
             }}
           />
         </View>
