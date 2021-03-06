@@ -63,6 +63,17 @@ export default function Login({navigation}) {
           });
 
           storeData('user', data).then(() => {
+            getData('token').then((res) => {
+              axios
+                .post('https://hikvisionindonesia.co.id/api/update_token.php', {
+                  id: data.id,
+                  token: res.token,
+                })
+                .then(function (response) {
+                  console.log(response);
+                });
+            });
+
             navigation.replace('MainApp');
           });
         }

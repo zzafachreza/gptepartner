@@ -85,6 +85,17 @@ export default function Home({navigation, route}) {
           setData(res.data);
         });
 
+      getData('token').then((res) => {
+        axios
+          .post('https://hikvisionindonesia.co.id/api/update_token.php', {
+            id: user.id,
+            token: res.token,
+          })
+          .then(function (response) {
+            console.log(response);
+          });
+      });
+
       //set pop up
       axios
         .post('https://hikvisionindonesia.co.id/api/popup_status.php', {
